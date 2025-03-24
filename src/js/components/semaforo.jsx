@@ -1,29 +1,43 @@
-import { useState } from "react";
-import ReactDOM from "react-dom/client";
+import React, { useState } from "react";
 
-export default function TrafficLight() {
-  const [color, setColor] = useState("red");
+const Home = () => {
+  const [light, setLight] = useState(""); // Estado para la luz activa
+  const [lightColors, setLightColors] = useState(["red", "yellow", "green"]);
+  const [newColor, setNewColor] = useState("");
+
+  function agregarColor() {
+    if (newColor.trim() !== "") {
+      setLightColors([...lightColors, newColor]);
+      setNewColor(""); // Limpiar input
+    }
+  }
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900">
-      {/* Poste del semáforo */}
-      <div className="w-2 h-20 bg-black"></div>
-      {/* Cuerpo del semáforo */}
-      <div className="bg-black p-4 rounded-lg flex flex-col items-center space-y-4 w-24 h-64">
-        <div
-          className={`w-16 h-16 rounded-full cursor-pointer transition-all duration-500 ${color === "red" ? "bg-red-500 shadow-lg shadow-red-500/50" : "bg-gray-700"}`}
-          onClick={() => setColor("red")}
-        ></div>
-        <div
-          className={`w-16 h-16 rounded-full cursor-pointer transition-all duration-500 ${color === "yellow" ? "bg-yellow-500 shadow-lg shadow-yellow-500/50" : "bg-gray-700"}`}
-          onClick={() => setColor("yellow")}
-        ></div>
-        <div
-          className={`w-16 h-16 rounded-full cursor-pointer transition-all duration-500 ${color === "green" ? "bg-green-500 shadow-lg shadow-green-500/50" : "bg-gray-700"}`}
-          onClick={() => setColor("green")}
-        ></div>
+    <div className="d-flex flex-column align-items-center mt-4">
+      <h1>SEMAFORO</h1>
+      <div
+        className="bg-dark p-3 rounded d-flex flex-column align-items-center"
+        style={{ width: "80px", padding: "10px" }}
+      >
+        {lightColors.map((color, index) => (
+          <div
+            key={index}
+            style={{
+              background: color,
+              width: "50px",
+              height: "50px",
+              margin: "5px",
+              borderRadius: "50%",
+              cursor: "pointer",
+              boxShadow: color === light ? `0px 0px 15px 5px ${color}` : "none", // Efecto de luz
+            }}
+            onClick={() => setLight(color)}
+          ></div>
+        ))}
       </div>
+       <h1>Pulsa en el color</h1>
     </div>
   );
-}
+};
 
+export default Home;
